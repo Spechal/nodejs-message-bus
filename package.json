@@ -1,0 +1,23 @@
+{
+    "name": "message-bus",
+    "preferGlobal": true,
+    "version": "0.0.1",
+    "author": "Travis Crowder <spechal@gmail.com>",
+    "description": "a simple email message bus http server",
+    "contributors": [
+        {
+            "name": "Travis Crowder",
+            "email": "spechal@gmail.com"
+        }
+    ],
+    "bin": {
+        "message-bus": "./bin/server.js"
+    },
+    "scripts": {
+        "start": "node ./bin/server.js"
+    },
+    "dependencies" : {
+        "nodemailer":  "0.6.*"
+    },
+    "license": "MIT"
+}
