@@ -6,7 +6,6 @@
 /**
  * would be nice to have:
  * - fire routine ... emails everyone on all email lists
- * - fix the res.end() calls ... just need one at the end I believe
  */
 
 /**
@@ -88,14 +87,31 @@ function array_keys(data){
     return false;
 }
 
+/**
+ * Escape meta characters in regular expression
+ * @param string
+ * @returns {XML|string|void}
+ */
 function escapeRegExp(string) {
     return string.replace(/([.*+?^=!:${}()|\[\]\/\\])/g, "\\$1");
 }
 
+/**
+ * Replace all instances of a string
+ * @param find
+ * @param replace
+ * @param str
+ * @returns {XML|string|void}
+ */
 function replaceAll(find, replace, str) {
     return str.replace(new RegExp(escapeRegExp(find), 'g'), replace);
 }
 
+/**
+ * Replace newline characters with EOL characters
+ * @param data
+ * @returns {XML|string|void}
+ */
 function nl2eol(data){
     return replaceAll('\\n', endOfLine, data);
 }
@@ -124,6 +140,7 @@ http.createServer(function(req, res){
         });
 
         req.on('end', function(){
+            // DATA will hold the query string hashmap
             var DATA = qs.parse(body);
 
             if(DATA != null){
@@ -144,7 +161,6 @@ http.createServer(function(req, res){
                             console.log(error);
                             res.writeHead(503, {"Content-Type": "text/plain"});
                             res.write('Unable to send message. [' + error.message + ']');
-                            res.end();
                         }
                         smtpTransport.close();
                     });
@@ -157,11 +173,10 @@ http.createServer(function(req, res){
                 // no data
                 res.writeHead(400, {"Content-Type": "text/plain"});
                 res.write('No data supplied.');
-                res.end();
             }
-            // always end
-            res.end();
         });
+        // always end
+        res.end();
 
     } else {
         // unsupported method
